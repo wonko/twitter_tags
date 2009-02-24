@@ -35,13 +35,19 @@ module TwitterTags
   desc "Returns the text from the tweet"
   tag "twitter:tweets:tweet:text" do |tag|
     tweet = tag.locals.tweet
-    tweet["text"]
+    tweet['text']
   end
 
   desc "Returns the date & time from the tweet"
   tag "twitter:tweets:tweet:date" do |tag|
     tweet = tag.locals.tweet
-    tweet["created_at"]
+    tweet['created_at']
   end
 
+  desc "Returns the url from the tweet"
+  tag "twitter:tweets:tweet:url" do |tag|
+    tweet = tag.locals.tweet
+    
+    "http://www.twitter.com/#{tag.locals.user}/statuses/#{tweet['id']}"
+  end
 end
