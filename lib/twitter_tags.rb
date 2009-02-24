@@ -5,6 +5,7 @@ module TwitterTags
   tag "twitter" do |tag|
     # we need a user in the user attribute
     raise StandardError::new('the twitter-tag needs a username in the user attribute') if tag.attr['user'].blank?
+    tag.locals.user = tag.attr['user']
     tag.expand
   end
 
@@ -18,7 +19,7 @@ module TwitterTags
 
     # iterate over the tweets
     result = []
-    count.times do |tweet|
+    Twitter::Search.new.from(tag.locals.user).per_page(count).each do |tweet|
       tag.locals.tweet = tweet
       result << tag.expand
     end

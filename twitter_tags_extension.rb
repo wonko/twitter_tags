@@ -1,5 +1,6 @@
 # Uncomment this if you reference any of your controllers in activate
 # require_dependency 'application'
+require 'twitter'
 
 class TwitterTagsExtension < Radiant::Extension
   version "1.0"
