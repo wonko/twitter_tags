@@ -13,6 +13,7 @@ class TwitterTagsExtension < Radiant::Extension
   # end
   
   def activate
+    Page.send :include, TwitterTags
     # admin.tabs.add "Twitter Tags", "/admin/twitter_tags", :after => "Layouts", :visibility => [:all]
   end
   
