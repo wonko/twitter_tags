@@ -31,4 +31,10 @@ module TwitterTags
   tag "twitter:tweets:tweet" do |tag|
     tag.expand
   end
+  
+  desc "Returns the text from the tweet"
+  tag "twitter:tweets:tweet:text" do |tag|
+    tweet = tag.locals.tweet
+    tweet["text"]
+  end
 end

@@ -89,6 +89,11 @@ describe 'TwitterTags' do
       tag = %{<r:twitter user='openminds_be'><r:tweets><r:tweet></r:tweet></r:tweets></r:twitter>}
       expected = ''
 
+      twitter_search_obj = Twitter::Search.new
+      Twitter::Search.should_receive(:new).and_return(twitter_search_obj)
+      twitter_search_obj.should_receive(:from).with('openminds_be').and_return(twitter_search_obj)
+      twitter_search_obj.should_receive(:per_page).with(10).and_return(%w{a b c d e f g h i j})      
+
       pages(:home).should render(tag).as(expected)
       
     end
@@ -96,7 +101,20 @@ describe 'TwitterTags' do
     
   describe '<r:twitter:tweets:tweet:text>' do
     it 'should give the text of the tweet' do
-      flunk
+      tag = %{<r:twitter user='openminds_be'><r:tweets count="2"><r:tweet:text /></r:tweets></r:twitter>}
+      expected = 'text 1text 2'
+
+      tweets = [
+        {"text"=>"text 1",  "created_at"=>"Mon, 23 Feb 2009 12:34:56 +0000", "to_user_id"=>nil, "from_user"=>"openminds_be", "id"=>1240985884, "from_user_id"=>1621731, "iso_language_code"=>"nl", "source"=>"&lt;a href=&quot;http://twitter.com/&quot;&gt;web&lt;/a&gt;", "profile_image_url"=>"http://s3.amazonaws.com/twitter_production/profile_images/60061505/logo-vierkant_normal.png"},
+        {"text"=>"text 2",  "created_at"=>"Mon, 23 Feb 2009 12:34:57 +0000", "to_user_id"=>nil, "from_user"=>"openminds_be", "id"=>1240985884, "from_user_id"=>1621731, "iso_language_code"=>"nl", "source"=>"&lt;a href=&quot;http://twitter.com/&quot;&gt;web&lt;/a&gt;", "profile_image_url"=>"http://s3.amazonaws.com/twitter_production/profile_images/60061505/logo-vierkant_normal.png"},
+        ]
+
+      twitter_search_obj = Twitter::Search.new
+      Twitter::Search.should_receive(:new).and_return(twitter_search_obj)
+      twitter_search_obj.should_receive(:from).with('openminds_be').and_return(twitter_search_obj)
+      twitter_search_obj.should_receive(:per_page).with(2).and_return(tweets)      
+
+      pages(:home).should render(tag).as(expected)
     end
   end  
     
