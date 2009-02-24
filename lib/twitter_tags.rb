@@ -37,4 +37,11 @@ module TwitterTags
     tweet = tag.locals.tweet
     tweet["text"]
   end
+
+  desc "Returns the date & time from the tweet"
+  tag "twitter:tweets:tweet:date" do |tag|
+    tweet = tag.locals.tweet
+    tweet["created_at"]
+  end
+
 end
