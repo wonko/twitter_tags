@@ -1,3 +1,13 @@
 = Twitter Tags
 
-Description goes here
+The twitter tags allow you to include part of your twitter timeline in your pages.
+
+  <ul>
+    <r:twitter user="wonko_be">
+       <r:tweets count="5">
+         <li><a href="<r:tweet:url />"><r:tweet:text /> (<r:tweet:date />)</a></li>
+       </r:tweets>
+    </r:twitter>
+  </ul>
+
+Made by Bernard Grymonpon (wonko / http://www.wonko.be) for Openminds (openminds_be / http://www.openminds.be)
