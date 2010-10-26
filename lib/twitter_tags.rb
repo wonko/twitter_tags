@@ -41,7 +41,9 @@ module TwitterTags
   desc "Returns the date & time from the tweet"
   tag "twitter:tweets:tweet:date" do |tag|
     tweet = tag.locals.tweet
-    tweet['created_at']
+    date = Time.zone.parse tweet['created_at']
+    format = tag.attr['format'] || '%a, %d %b %Y %H:%M:%S %z'
+    date.strftime format
   end
 
   desc "Returns the url from the tweet"

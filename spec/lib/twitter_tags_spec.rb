@@ -29,8 +29,7 @@ describe 'TwitterTags' do
 
   end
   
-  describe '<r:twitter:tweets>' do    
-    
+  describe '<r:twitter:tweets>' do
     it 'should give no output' do
       tag = %{<r:twitter user='openminds_be'><r:tweets></r:tweets></r:twitter>}
       expected = ''
@@ -121,6 +120,22 @@ describe 'TwitterTags' do
     it 'should give the date & time of the tweet' do
       tag = %{<r:twitter user='openminds_be'><r:tweets count="1"><r:tweet:date /></r:tweets></r:twitter>}
       expected = 'Mon, 23 Feb 2009 12:34:56 +0000'
+
+      tweets = [
+        {"text"=>"text 1",  "created_at"=>"Mon, 23 Feb 2009 12:34:56 +0000", "to_user_id"=>nil, "from_user"=>"openminds_be", "id"=>1240985884, "from_user_id"=>1621731, "iso_language_code"=>"nl", "source"=>"&lt;a href=&quot;http://twitter.com/&quot;&gt;web&lt;/a&gt;", "profile_image_url"=>"http://s3.amazonaws.com/twitter_production/profile_images/60061505/logo-vierkant_normal.png"},
+        ]
+
+      twitter_search_obj = Twitter::Search.new
+      Twitter::Search.should_receive(:new).and_return(twitter_search_obj)
+      twitter_search_obj.should_receive(:from).with('openminds_be').and_return(twitter_search_obj)
+      twitter_search_obj.should_receive(:per_page).with(1).and_return(tweets)      
+
+      pages(:home).should render(tag).as(expected)
+    end
+    
+    it 'should allow an optional format to be used' do
+      tag = %{<r:twitter user='openminds_be'><r:tweets count="1"><r:tweet:date format="%l:%M%p %b %d" /></r:tweets></r:twitter>}
+      expected = '12:34PM Feb 23'
 
       tweets = [
         {"text"=>"text 1",  "created_at"=>"Mon, 23 Feb 2009 12:34:56 +0000", "to_user_id"=>nil, "from_user"=>"openminds_be", "id"=>1240985884, "from_user_id"=>1621731, "iso_language_code"=>"nl", "source"=>"&lt;a href=&quot;http://twitter.com/&quot;&gt;web&lt;/a&gt;", "profile_image_url"=>"http://s3.amazonaws.com/twitter_production/profile_images/60061505/logo-vierkant_normal.png"},
